@@ -1,6 +1,8 @@
 require 'sinatra'
 require 'twilio-ruby'
 
+texts = ['hello','hi','sup','f u']
+
 # A hack around multiple routes in Sinatra
 def get_or_post(path, opts={}, &block)
   get(path, opts, &block)
@@ -16,8 +18,8 @@ end
 # Voice Request URL
 get_or_post '/voice/?' do
   response = Twilio::TwiML::Response.new do |r|
-    r.Say 'Congratulations! You\'ve successfully deployed ' \
-          'the Twilio HackPack for Heroku and Sinatra!', :voice => 'woman'
+	
+    r.Say texts.sample, :voice => 'woman'
   end
   response.text
 end
@@ -25,8 +27,7 @@ end
 # SMS Request URL
 get_or_post '/sms/?' do
   response = Twilio::TwiML::Response.new do |r|
-    r.Sms 'Congratulations! You\'ve successfully deployed ' \
-          'the Twilio HackPack for Heroku and Sinatra!'
+    r.Sms texts.sample
   end
   response.text
 end
